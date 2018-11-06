@@ -9,7 +9,7 @@ from django.db.models import Q
 
 # Create your views here.
 
-def news_paginator(paginator, page_number):
+def product_paginator(paginator, page_number):
 	
 	page = paginator.get_page(page_number)
 
@@ -41,15 +41,16 @@ class IndexPage(View):
 		
 		paginator = Paginator(products_list,2)
 		page_number = request.GET.get('page', 1)
-		page, prev_url, next_url = news_paginator(paginator, page_number)
+		page, prev_url, next_url = product_paginator(paginator, page_number)
 		formlogin = LoginForm()
 		
-		
+		category = get_object_or_404(Category)
 
 		
 
 		context ={
-				'news' : products_list,
+				
+				'category' : category,
 				'page_object': page,
 		        'next_url'   : next_url,
 		        'prev_url'   : prev_url,
@@ -58,3 +59,13 @@ class IndexPage(View):
 		}
 
 		return render(request,'index.html', context)
+
+
+class ProductView(View):
+	"""Full product discription"""
+	def get(self, request, slug):
+		product_full = get_object_or_404(Product, slug=slug)
+		context = {
+				'product' : product_full
+		}
+		return render(request, 'product_full.html', context)

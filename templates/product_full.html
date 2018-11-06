@@ -1,0 +1,15 @@
+11
+
+<h3><a href=" {{product.get_absolute_url}}"> {{product.title}}</a></h3>
+          {{product.category}}</br>
+          {{product.brand}}</br>
+          {{product.description|safe}}</br>
+          {{product.price}}</br>
+          {{product.available}}</br>
+
+                
+          {% if product.image == '' %}
+          
+          {% else %}
+            <img src="{{product.image.url}}" style="width: 100px; height: 100px">
+          {% endif %}
